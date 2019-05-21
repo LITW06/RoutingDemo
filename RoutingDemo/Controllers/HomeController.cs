@@ -12,32 +12,35 @@ namespace RoutingDemo.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Other", "Home");
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
+        [Route("contact/us")]
+        public IActionResult Other()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult GetData(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return Json(new {id = id});
+        }
+
+        //   /simchas/73/contributions
+        [Route("r/{text}")]
+        public IActionResult Reverse(string text)
+        {
+            return Json(new
+            {
+                reverse = new string(text.Reverse().ToArray()),
+                original = text
+            });
+        }
+
+        [Route("simchas/{id}/contributions")]
+        public IActionResult Stupid(int id)
+        {
+            return Json(new {SimchaId = id});
         }
     }
 }
